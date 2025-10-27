@@ -2,11 +2,40 @@
 // AUTO-FIX SERVICE - Automatiska åtgärder
 // ============================================
 
+import { Incident } from "../models/incident";
+
 // SYFTE:
 // Denna fil innehåller logik för att automatiskt försöka fixa incidenter.
 // När en kritisk incident skapas kan systemet t.ex. "starta om en server".
 
 // UPPGIFT - STEG 1: Skapa en attemptFix-funktion
+
+export async function attemptFix(incident: Incident) {
+  const { action, target, recommendation } = incident.aiAnalysis || {};
+
+  if (!action || !target) {
+    console.log("Canot auto fix this incident");
+    return;
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  switch (action) {
+    case "restart_service":
+      console.log("Simulerar omstart av servern: " + target);
+      break;
+    case "scale_up":
+      console.log("Simulerar skalning upp av tjänsten: " + target);
+      break;
+    case "clear_cache":
+      console.log("Simulerar rensning av cache på: " + target);
+      break;
+    default:
+      console.log("Okänd åtgärd");
+  }
+
+  console.log(`Auto fix åtgärdad: ${recommendation || " No action taken"}`);
+}
 // Funktionen ska ta emot en incident (med aiAnalysis).
 // Baserat på incident-typen ska den returnera information om vilken åtgärd som vidtagits.
 

@@ -14,7 +14,24 @@ export interface Incident {
   status: "open" | "investigating" | "resolved" | "closed";
   priority: "critical" | "high" | "medium" | "low";
   createdAt: Date;
-  aiAnalasysis: { type: string; priority: string; recomendation: string };
+  // AI-output kopplat till incidenten
+  aiAnalysis?: {
+    type: string;
+    priority: "critical" | "high" | "medium" | "low";
+    action:
+      | "restart_service"
+      | "scale_up"
+      | "clear_cache"
+      | "notify_human"
+      | "none";
+    target?: string;
+    recommendation: string;
+  };
+  assignedTo?: string;
+  history?: Array<{
+    timestamp: Date;
+    message: string;
+  }>;
 }
 // Skapa ett TypeScript interface som beskriver en incident:
 // - id: string
