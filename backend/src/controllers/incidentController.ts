@@ -5,11 +5,42 @@
 // SYFTE:
 // Denna fil innehåller affärslogiken för att hantera incidenter.
 // Den kopplar ihop modeller, services och routes.
+import { type Incident, incidentArray } from "../models/incident";
+import { Request, Response } from "express";
 
 // UPPGIFT - STEG 1: Skapa handler-funktioner
 // Varje funktion ska hantera en specifik operation:
 // - getAllIncidentsHandler: Hämta alla incidenter från model
+
+export async function getAllIncidentsHandler(req: Request, res: Response) {
+  try {
+    const result: Incident[] = incidentArray;
+    if (incidentArray.length === 0) {
+      return res.status(400).json({ message: "No incidents" });
+    }
+    res.status(200).json({ incidents: result });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
 // - getIncidentByIdHandler: Hämta en specifik incident
+
+export async function getIncidentByIdHandler(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    let result = incidentArray.find((incident) => incident.id === id);
+
+    if (!result) {
+      return res
+        .status(404)
+        .json({ message: "No incidident with that id found" });
+    }
+
+    res.status(200).json({ incident: result });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
 // - createIncidentHandler: Skapa ny incident + kör AI-analys + auto-fix
 // - updateIncidentHandler: Uppdatera befintlig incident
 // - deleteIncidentHandler: Ta bort incident

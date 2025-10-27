@@ -8,10 +8,19 @@
 
 // UPPGIFT - STEG 1: Skapa en Express Router
 // Importera Router från express och skapa en ny router-instans.
+import express from "express";
+
+const router = express.Router();
 
 // UPPGIFT - STEG 2: Definiera endpoints
 // Koppla varje endpoint till rätt handler från controller:
 // - GET    /           → getAllIncidentsHandler
+router.get(
+  "/",
+  /*getAllIncidentsHandler */ () => {
+    return "Works";
+  }
+);
 // - GET    /:id        → getIncidentByIdHandler
 // - POST   /           → createIncidentHandler
 // - PATCH  /:id        → updateIncidentHandler
