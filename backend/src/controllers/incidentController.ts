@@ -42,6 +42,9 @@ export async function getIncidentByIdHandler(req: Request, res: Response) {
   }
 }
 // - createIncidentHandler: Skapa ny incident + kör AI-analys + auto-fix
+
+export async function createIncidentHandler(req: Request, res: Response) {}
+
 // - updateIncidentHandler: Uppdatera befintlig incident
 // - deleteIncidentHandler: Ta bort incident
 

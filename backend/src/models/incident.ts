@@ -7,6 +7,15 @@
 // och hanterar lagring av incidenter (i minnet).
 
 // UPPGIFT - STEG 1: Definiera Incident interface
+export interface Incident {
+  id: string;
+  title: string;
+  description: string;
+  status: "open" | "investigating" | "resolved" | "closed";
+  priority: "critical" | "high" | "medium" | "low";
+  createdAt: Date;
+  aiAnalasysis: { type: string; priority: string; recomendation: string };
+}
 // Skapa ett TypeScript interface som beskriver en incident:
 // - id: string
 // - title: string
@@ -18,7 +27,7 @@
 
 // UPPGIFT - STEG 2: Skapa en array för att lagra incidenter
 // Detta är en enkel in-memory databas (datan försvinner vid omstart)
-
+export const incidentArray: Incident[] = [];
 // UPPGIFT - STEG 3: Skapa CRUD-funktioner
 // - getAllIncidents(): Hämta alla incidenter
 // - getIncidentById(id): Hämta en specifik incident
