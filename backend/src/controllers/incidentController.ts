@@ -7,6 +7,8 @@
 // Den kopplar ihop modeller, services och routes.
 import { type Incident, incidentArray } from "../models/incident";
 import { Request, Response } from "express";
+import { analyzeIncident } from "../services/aiAnalysis";
+import { attemptFix } from "../services/autoFix";
 
 // UPPGIFT - STEG 1: Skapa handler-funktioner
 
@@ -29,6 +31,7 @@ export async function getAllIncidentsHandler(req: Request, res: Response) {
 export async function createIncidentHandler(req: Request, res: Response) {
   const { title, description } = req.body;
   try {
+    const aiResult = await analyzeIncident(title, description);
     const newIncident: Incident = {
       id: (Math.random() * 100000).toFixed(0),
       title,
@@ -36,8 +39,12 @@ export async function createIncidentHandler(req: Request, res: Response) {
       status: "open",
       priority: "low",
       createdAt: new Date(),
+      aiAnalysis: aiResult as unknown as Incident["aiAnalysis"],
     };
     incidentArray.push(newIncident);
+
+    attemptFix(newIncident);
+
     res.status(201).json({ incident: newIncident });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

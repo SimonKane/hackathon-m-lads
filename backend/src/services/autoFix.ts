@@ -13,11 +13,10 @@ import { Incident } from "../models/incident";
 export async function attemptFix(incident: Incident) {
   const { action, target, recommendation } = incident.aiAnalysis || {};
 
-  if (!action || !target) {
+  if (!action) {
     console.log("Canot auto fix this incident");
     return;
   }
-
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   switch (action) {
@@ -30,20 +29,21 @@ export async function attemptFix(incident: Incident) {
     case "clear_cache":
       console.log("Simulerar rensning av cache på: " + target);
       break;
+    case "notify_human":
+      console.log("Notifierar mänsklig operatör för: " + target);
+      break;
     default:
       console.log("Okänd åtgärd");
   }
 
-  console.log(`Auto fix åtgärdad: ${recommendation || " No action taken"}`);
+  console.log({
+    action: action,
+    success: true,
+    message: `Auto fix executed: ${recommendation || "No action taken"}`,
+  });
 }
 // Funktionen ska ta emot en incident (med aiAnalysis).
 // Baserat på incident-typen ska den returnera information om vilken åtgärd som vidtagits.
-
-// UPPGIFT - STEG 2: Simulera åtgärder baserat på typ
-// - server_down → Simulera restart (returnera "Server restart initiated")
-// - high_cpu → Simulera scaling (returnera "Scaled up to 3 instances")
-// - memory_leak → Simulera cleanup (returnera "Memory cache cleared")
-// - Övriga → "No automatic fix available"
 
 // UPPGIFT - STEG 3: Returnera åtgärdsobjekt
 // Returnera ett objekt med:
