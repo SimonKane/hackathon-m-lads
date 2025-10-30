@@ -5,6 +5,25 @@
 // SYFTE:
 // Detta är huvudfilen för backend-servern.
 // Här ska ni sätta upp Express, middleware och starta servern.
+import dotenv from "dotenv";
+// Load environment variables FIRST
+dotenv.config();
+import express from "express";
+import cors from "cors";
+import incidentRoutes from "./routes/incidents";
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+dotenv.config();
+
+app.use(cors());
+app.use(express.json());
+
+app.use("/api", incidentRoutes);
+
+app.listen(3000, () => {
+  console.log(`Server is listening to ${PORT}`);
+});
 
 // UPPGIFT:
 // 1. Importera express, cors och dotenv
